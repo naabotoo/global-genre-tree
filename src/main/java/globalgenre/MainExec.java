@@ -1,6 +1,7 @@
 package globalgenre;
 
 import globalgenre.domains.Genre;
+import globalgenre.domains.Language;
 import globalgenre.services.GenreService;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -21,6 +22,27 @@ public class MainExec {
 
         disposable.dispose();
 
+        Genre genre = new Genre();
+        genre.setLabel("rocket");
+        genre.setLanguage(Language.ENGLISH);
+
+        genre = genreService.addGenre(genre);
+
+        logger.info("created genre : "+ ((genre != null) ? genre.toString() : "None"));
+
+        logger.info("about to get total count of genres.");
+        Long totalCount = genreService.countGenre();
+        logger.info("total count of genres : "+ totalCount);
+
+        String label = "fly";
+        Genre foundGenre = genreService.getByLabel(label);
+
+        logger.info("Found genre with label : "+ label
+                + " : "+ ((foundGenre != null) ? foundGenre.toString() : null));
+
+
+        boolean isDeleted = genreService.deleteGenre(foundGenre);
+        logger.info("Is deleted genre deleted : "+ isDeleted);
 
         logger.info("done with running global genre application.");
     }
